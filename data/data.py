@@ -75,3 +75,13 @@ def rename_for_layout(df):
 def rename_for_db(df):
     mapping = {c : c.replace(' ','_').title() for c in df.columns}
     return df.rename(columns=mapping)
+
+def conda_env_to_requirements(path):
+    '''
+    Create a requirements.txt file for pip from conda env file
+    '''
+    with open(path,'r') as f:
+        lines = f.readlines()[4:]
+    new_lines = [l.rsplit('=',1)[0]+'\n' for l in lines]
+    with open('requirements.txt','w') as f:
+        f.writelines(new_lines)
